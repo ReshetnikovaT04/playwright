@@ -74,7 +74,20 @@ const elements: Elements[] = [
   {
      locator: (page: Page): Locator => page.getByLabel('Search (Command+K)'), 
      name: 'Search input',
-
+  },
+  {
+     locator: (page: Page): Locator => page.getByRole('heading', { name: 'Playwright enables reliable' }), 
+     name: 'Title',
+     text: 'Playwright enables reliable end-to-end testing for modern web apps.',
+  },
+  {
+    locator: (page: Page): Locator => page.getByRole('link', { name: 'Get started' }),
+    name: 'Get started button',
+    text: 'Get started',
+    attribute: {
+      type: 'href',    
+      value: '/docs/intro'
+    }
   },
 ]
 
@@ -98,8 +111,6 @@ test(`Проверка отображения элементов навигац�
     });
   }
   });
-
-
 });
 
   test('Проверка атрибутов href элементов навигации хедера', async ({ page }) => {
@@ -111,24 +122,8 @@ elements.forEach(({locator, name, attribute}) => {
   }
 });
 });
-});
-
-
-
 test('Проверка переключения лайт мода', async ({ page }) => {
   await page.getByLabel('Switch between dark and light').click();
   await expect.soft(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
-
-test('Проверка заголовка страницы', async ({ page }) => {
-  await expect.soft(page.getByRole('heading', { name: 'Playwright enables reliable' })).toBeVisible();
-  await expect.soft(page.getByRole('heading', { name: 'Playwright enables reliable' })).toContainText(
-    'Playwright enables reliable end-to-end testing for modern web apps.');
 });
-
-test('Проверка кнопки Get started', async ({ page }) => {
- await expect.soft(page.getByRole('link', { name: 'Get started' })).toBeVisible();
- await expect.soft(page.getByRole('link', { name: 'Get started' })).toContainText('Get started');
- await expect.soft(page.getByRole('link', { name: 'Get started' })).toHaveAttribute('href', '/docs/intro');
-});
-
